@@ -203,10 +203,10 @@ SAP_BOM=SAP_no_merce_sfusa.copy()
 
 
 # salva in xlsx
-PLM_BOM.to_excel('/Users/marcello_galimberti/Documents/Marcello Galimberti/ADI business consulting/Offerte 2023/Ducati 2023/ASC/Delta BOM/Confronto Python/PLM_BOM.xlsx',
-                index=False)
-SAP_BOM.to_excel('/Users/marcello_galimberti/Documents/Marcello Galimberti/ADI business consulting/Offerte 2023/Ducati 2023/ASC/Delta BOM/Confronto Python/SAP_BOM.xlsx',
-                index=False)
+#PLM_BOM.to_excel('/Users/marcello_galimberti/Documents/Marcello Galimberti/ADI business consulting/Offerte 2023/Ducati 2023/ASC/Delta BOM/Confronto Python/PLM_BOM.xlsx',
+#                index=False)
+#SAP_BOM.to_excel('/Users/marcello_galimberti/Documents/Marcello Galimberti/ADI business consulting/Offerte 2023/Ducati 2023/ASC/Delta BOM/Confronto Python/SAP_BOM.xlsx',
+#                index=False)
 
 
 # ## Statistiche BOMs e pubblicazione Streamlit
