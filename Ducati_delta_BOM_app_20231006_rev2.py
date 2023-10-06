@@ -306,7 +306,7 @@ if not livello_1:
 if livello_1 == 'M':
     L_BOM_input = SAP_M
     R_BOM_input = PLM_M
-elif livello_1 = 'V':
+elif livello_1 == 'V':
     L_BOM_input = SAP_V
     R_BOM_input = PLM_V
 else:
