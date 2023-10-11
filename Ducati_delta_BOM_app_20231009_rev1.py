@@ -105,26 +105,9 @@ def importa_cap (df):
     df = df[['Liv.','Materiale','Qtà comp. (UMC)','MerceSfusa (BOM)']]
     df.rename(columns={'Materiale':'Articolo','Qtà comp. (UMC)':'Qty'},inplace=True)
     df = df.fillna(0)
-    df['MerceSfusa (BOM)'] = df['MerceSfusa (BOM)'].replace('Sì',1)
-    df['MerceSfusa (BOM)'] = df['MerceSfusa (BOM)'].replace('No','')
     df['Liv.']= df['Liv.'].astype(int)
-    df['Eliminare'] = 0
-    for i in range(len(df)):
-        if i == len(df):
-            break
-        if df.loc[i,'MerceSfusa (BOM)'] == 1:
-            livello_padre = df.loc[i,'Liv.']
-            df.loc[i,'Eliminare'] = 1
-            j = i
-            if (j+1) == len(df):
-                break
-            while df.loc[j+1,'Liv.']>livello_padre:
-                df.iat[j+1,4]=1
-                j+=1
-                if (j+1) == len(df):
-                    break
-    df = df.loc[df['Eliminare']==0]
-    df = df.drop(columns=['MerceSfusa (BOM)','Eliminare'])
+    df = df.loc[df['MerceSfusa (BOM)']=='No']
+    df = df.drop(columns=['MerceSfusa (BOM)'])
     df.reset_index(drop=True, inplace=True)
     return df
 
