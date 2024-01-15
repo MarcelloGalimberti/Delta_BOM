@@ -1,4 +1,7 @@
 # Importa librerie
+
+# modifica 15/1/24 CSV con decimali virgola
+
 import streamlit as st
 import pandas as pd
 pd.options.mode.chained_assignment = None  # default='warn'
@@ -24,7 +27,7 @@ st.set_page_config(layout="wide")
 
 # Layout app
 url_immagine='https://github.com/MarcelloGalimberti/Delta_BOM/blob/main/Ducati-Multistrada-V4-2021-008.jpeg?raw=true'
-st.title('Delta BOM D33 vs DAA rev.20240108')
+st.title('Delta BOM D33 vs DAA rev.20240115')
 st.image(url_immagine)
 
 # Importazione file da Streamlit
@@ -519,7 +522,7 @@ with col2:
 # Download file csv
 
 def convert_df(df):
-    return df.to_csv(index=False).encode('utf-8')   # messo index=False
+    return df.to_csv(index=False,decimal=',').encode('utf-8')   # messo index=False
 csv = convert_df(df_confronto_lev2_descrizione)
 st.download_button(
     label="Download Registro delle azioni livelli 2 in CSV",
