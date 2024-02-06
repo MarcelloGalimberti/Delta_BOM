@@ -23,7 +23,7 @@ from io import BytesIO
 #import xlsxwriter
 import io
 from io import StringIO
-from fuzzywuzzy import fuzz
+#from fuzzywuzzy import fuzz
 
 from IPython.display import display, HTML
 display(HTML("<style>.container { width:80% !important; }</style>"))
@@ -788,63 +788,63 @@ with tab4:
 
     # implementazione logica Fuzzy
 
-    fuzzy_PLM = custom_compare[['Articolo_SAP','Testo breve oggetto','Gruppo Tecnico_PLM','Testo posizione riga 1_PLM',
-                                'STGR_PLM','Descrizione Sottogruppo_PLM']]
-    fuzzy_PLM = fuzzy_PLM.drop_duplicates()
+  #  fuzzy_PLM = custom_compare[['Articolo_SAP','Testo breve oggetto','Gruppo Tecnico_PLM','Testo posizione riga 1_PLM',
+  #                              'STGR_PLM','Descrizione Sottogruppo_PLM']]
+   # fuzzy_PLM = fuzzy_PLM.drop_duplicates()
 
 
-    fuzzy_PLM['key_fuzzy']=np.where(fuzzy_PLM['Testo posizione riga 1_PLM'] != 'nan',
-                            fuzzy_PLM['Articolo_SAP']+'|'+fuzzy_PLM['Gruppo Tecnico_PLM']+'|'+fuzzy_PLM['Testo posizione riga 1_PLM'],
-                            fuzzy_PLM['Articolo_SAP']+'|'+fuzzy_PLM['Gruppo Tecnico_PLM'])
-    fuzzy_PLM['best_fit'] = None
+  #  fuzzy_PLM['key_fuzzy']=np.where(fuzzy_PLM['Testo posizione riga 1_PLM'] != 'nan',
+  #                          fuzzy_PLM['Articolo_SAP']+'|'+fuzzy_PLM['Gruppo Tecnico_PLM']+'|'+fuzzy_PLM['Testo posizione riga 1_PLM'],
+   #                         fuzzy_PLM['Articolo_SAP']+'|'+fuzzy_PLM['Gruppo Tecnico_PLM'])
+  #  fuzzy_PLM['best_fit'] = None
 
 
-    fuzzy_SAP = df_SAP_2_custom.copy()
-    fuzzy_SAP['key_fuzzy'] = np.where(fuzzy_SAP['Testo posizione riga 1'].astype(str) != 'nan',
-                            fuzzy_SAP['Articolo']+'|'+fuzzy_SAP['Gruppo Tecnico']+'|'+fuzzy_SAP['Testo posizione riga 1'],
-                            fuzzy_SAP['Articolo']+'|'+fuzzy_SAP['Gruppo Tecnico'])
-
-
-
-
-    fuzzy_SAP_un=fuzzy_SAP['key_fuzzy']#.drop_duplicates(inplace=True)
-    fuzzy_SAP_un = list(fuzzy_SAP_un.drop_duplicates())
+ #   fuzzy_SAP = df_SAP_2_custom.copy()
+ #   fuzzy_SAP['key_fuzzy'] = np.where(fuzzy_SAP['Testo posizione riga 1'].astype(str) != 'nan',
+  #                          fuzzy_SAP['Articolo']+'|'+fuzzy_SAP['Gruppo Tecnico']+'|'+fuzzy_SAP['Testo posizione riga 1'],
+  #                          fuzzy_SAP['Articolo']+'|'+fuzzy_SAP['Gruppo Tecnico'])
 
 
 
 
-    st.write('SAP no dupl',fuzzy_SAP_un)
+  #  fuzzy_SAP_un=fuzzy_SAP['key_fuzzy']#.drop_duplicates(inplace=True)
+  #  fuzzy_SAP_un = list(fuzzy_SAP_un.drop_duplicates())
 
 
 
-    for i in range(len(fuzzy_PLM)):
 
-        key_check = dict(zip(fuzzy_SAP_un,[0 for i in range(len(fuzzy_SAP_un))])) #azzero il dizionario dei punteggi
-        chiave = fuzzy_PLM.key_fuzzy.iloc[i]
-        for k in range(len(key_check)):
-            chiave_dic = fuzzy_SAP_un[k]
+   # st.write('SAP no dupl',fuzzy_SAP_un)
+
+
+
+    #for i in range(len(fuzzy_PLM)):
+
+     #   key_check = dict(zip(fuzzy_SAP_un,[0 for i in range(len(fuzzy_SAP_un))])) #azzero il dizionario dei punteggi
+     #   chiave = fuzzy_PLM.key_fuzzy.iloc[i]
+     #   for k in range(len(key_check)):
+      #      chiave_dic = fuzzy_SAP_un[k]
         # try:
-            key_check[chiave_dic] = fuzz.ratio(str(chiave).lower(), chiave_dic)
+     #       key_check[chiave_dic] = fuzz.ratio(str(chiave).lower(), chiave_dic)
             #except:
             #  st.write('problema')
             #   key_check[chiave_dic] = 0
 
-        best_score = max(key_check.values())
-        sub_dic={k: v for k,v in key_check.items() if v == best_score}
-        best_score_item = list(sub_dic.keys())[0]
-        fuzzy_PLM['best_fit'].iloc[i]=str.lower(best_score_item)
+      #  best_score = max(key_check.values())
+     #   sub_dic={k: v for k,v in key_check.items() if v == best_score}
+       # best_score_item = list(sub_dic.keys())[0]
+       # fuzzy_PLM['best_fit'].iloc[i]=str.lower(best_score_item)
         #key_check = {}
         
             
-    st.write('PLM',fuzzy_PLM)
-    fuzzy_SAP['key_fuzzy'] = [str.lower(key) for key in fuzzy_SAP['key_fuzzy'].astype(str)]
-    fuzzy_SAP = fuzzy_SAP[fuzzy_SAP.STGR.astype(str) != 'nan' ]
-    st.write('fuzzy SAP',fuzzy_SAP)
-    fuzzy_PLM = fuzzy_PLM.merge(fuzzy_SAP[['key_fuzzy','STGR']], how='left', left_on='best_fit',right_on='key_fuzzy')
+   # st.write('PLM',fuzzy_PLM)
+   # fuzzy_SAP['key_fuzzy'] = [str.lower(key) for key in fuzzy_SAP['key_fuzzy'].astype(str)]
+  #  fuzzy_SAP = fuzzy_SAP[fuzzy_SAP.STGR.astype(str) != 'nan' ]
+  #  st.write('fuzzy SAP',fuzzy_SAP)
+   # fuzzy_PLM = fuzzy_PLM.merge(fuzzy_SAP[['key_fuzzy','STGR']], how='left', left_on='best_fit',right_on='key_fuzzy')
 
-    fuzzy_PLM = fuzzy_PLM[(fuzzy_PLM.STGR_PLM.astype(str)=='nan') & (fuzzy_PLM.STGR.astype(str)!='nan') ]
-    st.write('Output')
-    st.dataframe(fuzzy_PLM, width=2500)
+   # fuzzy_PLM = fuzzy_PLM[(fuzzy_PLM.STGR_PLM.astype(str)=='nan') & (fuzzy_PLM.STGR.astype(str)!='nan') ]
+  #  st.write('Output')
+  #  st.dataframe(fuzzy_PLM, width=2500)
 
 
     #st.stop()
@@ -1327,17 +1327,6 @@ def compara_strutture(albero_SAP, albero_PLM):
 confronto_alberi = compara_strutture(albero_L_compare, albero_R_compare)
 
 st.write(confronto_alberi)
-
-
-
-
-
-
-
-
-
-
-
 
 df_delta = df_output_confronto_L.merge(df_output_confronto_R,how='outer', left_on='Articolo SAP', right_on='Articolo PLM',
                              indicator=True,
